@@ -1,0 +1,17 @@
+name = "dtc-broken-plumbing"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+# D1 database with NO database_id.
+# wrangler deploy auto-provisions it, but:
+#   1. The ID is only written back to JSONC, not TOML — silent skip (#13632).
+#   2. The deploy script runs `wrangler d1 migrations apply` which cannot
+#      resolve an auto-provisioned binding, so the deploy itself fails.
+[[d1_databases]]
+binding = "DB"
+database_name = "dtc-broken-plumbing-db"
+# database_id intentionally omitted
